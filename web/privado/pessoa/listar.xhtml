@@ -33,16 +33,13 @@
                                     </p:selectOneMenu>     
                                     <p:outputLabel value="Filtro:"/>
                                     <p:inputText value="#{controlePessoa.dao.filtro}" size="30">
-                                        <p:ajax update="listagem" event="keyup"/>
+                                        <p:ajax update="listagem" event="blur"/>
                                     </p:inputText>
                                     <p:commandButton value="Filtrar" update="listagem"/>
-
+                                    <p:outputLabel value="Máximo de objetos: "/>
                                     <p:inputNumber value="#{controlePessoa.dao.maximoObjetos}" size="3"
-                                                   thousandSeparator="" decimalSeparator="" decimalPlaces="0">
-                                        <p:ajax event="keyup" update="listagem"/> 
-                                    </p:inputNumber>
-
-
+                                                   decimalPlaces="0" decimalSeparator=""
+                                                   thousandSeparator=""/>     
                                 </p:panelGrid>
                             </div>
                         </f:facet>
