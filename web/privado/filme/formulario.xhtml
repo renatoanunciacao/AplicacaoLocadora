@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formEdicao">
+        <h:panelGroup rendered="#{controleFilme.editando}">
+            <div class="ui-fluid">
+                <p:messages id="messages"/>
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-20"
+                    layout="grid" styleClass="ui-panelgrid-blank">
+                    <f:facet name="header">
+                        <p:outputLabel value="Edição de Filmes"/>
+                    </f:facet>
+                    <p:outputLabel value="Código"/>
+                    <p:inputText value="#{controleFilme.objeto.codigo}"
+                                 size="5" readonly="true"/>
+                    <p:outputLabel value="Nome" for="txtNome"/>
+                    <p:inputText value="#{controleFilme.objeto.nome}"
+                                 id="txtNome" size="50" maxlength="50"/>
+                    <p:outputLabel value="Descrição" for="txtDescricao"/>
+                    <p:inputText value="#{controleFilme.objeto.descricao}"
+                                 id="txtDescricao" size="50" maxlength="50"/> 
+                    <p:outputLabel value="Valor" for="txtValor"/>
+                    <p:inputText value="#{controleFilme.objeto.valor}"
+                                 id="txtValor" size="20" maxlength="20"/>  
+                    <p:outputLabel value="Status" for="txtLocado"/>
+                    <p:selectBooleanCheckbox id="txtLocado" value="#{controleFilme.objeto.locado}" />       
+                    
+                    <p:outputLabel value="Locação" for="selectLocacao"/>
+                    <p:selectOneMenu value="#{controleFilme.objeto.locacao}"
+                                     id="selectLocacao" filter="true">
+                        <f:converter converterId="converterLocacao"/>
+                        <f:selectItem itemLabel="Selecione um registro"
+                                      noSelectionOption="true"/>
+                        <f:selectItems value="#{controleFilme.daoLocacao.listaTodos}"
+                                       var="s" itemLabel="#{s.codigo}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:commandButton value="Salvar"
+                                     icon="ui-icon-disk"
+                                     actionListener="#{controleFilme.salvar()}"
+                                     update="formEdicao :formListagem"/>
+                </p:panelGrid>
+                
+            </div>
+          
+        </h:panelGroup>
+    </h:form>
+</html>
+

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo">Manutenção de Filmes</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formListagem">
+                <h:panelGroup rendered="#{!controleFilme.editando}">
+                    <p:messages/>
+
+                    <p:commandButton value="Novo" icon="ui-icon-plus"
+                                     actionListener="#{controleFilme.novo()}"
+                                     update="formEdicao formListagem"/>
+                    <br/><br/>
+
+                    <p:dataTable value="#{controleFilme.dao.listaObjetos}" var="obj"
+                                 reflow="true" id="listagem">
+                        <f:facet name="header">
+                            <div class="ui-fluid" >
+                                <p:panelGrid columns="7" styleClass="ui-panelgrid-blank" layout="grid"
+                                             columnClasses="col-md-1,col-md-2,col-md-1,col-md-3,col-md-2,col-md-2,col-md-1">
+                                    <p:outputLabel value="Ordem:"/>
+                                    <p:selectOneMenu id="ordem" value="#{controleFilme.dao.ordem}">
+                                        <f:selectItem itemLabel="Código" itemValue="codigo"/>
+                                        <f:selectItem itemLabel="Nome" itemValue="nome"/> 
+                                        <f:selectItem itemLabel="Descrição" itemValue="descricao"/>
+                                        <f:selectItem itemLabel="Valor" itemValue="valor"/>
+                                        <f:selectItem itemLabel="Status" itemValue="locado"/>
+                                        <p:ajax update="listagem"/>
+                                    </p:selectOneMenu>     
+                                    <p:outputLabel value="Filtro:"/>
+                                    <p:inputText value="#{controleFilme.dao.filtro}" size="30">
+                                        <p:ajax update="listagem" event="blur"/>
+                                    </p:inputText>
+                                    <p:commandButton value="Filtrar" update="listagem"/>
+                                    <p:outputLabel value="Máximo de objetos: "/>
+                                    <p:inputNumber value="#{controleFilme.dao.maximoObjetos}" size="3"
+                                                   decimalPlaces="0" decimalSeparator=""
+                                                   thousandSeparator=""/>     
+                                </p:panelGrid>
+                            </div>
+                        </f:facet>
+                        <f:facet name="footer">
+                            <p:outputLabel value="#{controleFilme.dao.mensagemNavegacao}"/>
+                            <p:commandButton icon="ui-icon-seek-first"
+                                             actionListener="#{controleFilme.dao.primeiro()}"
+                                             update="listagem"/>
+                            <p:commandButton icon="ui-icon-seek-prev"
+                                             actionListener="#{controleFilme.dao.anterior()}"
+                                             update="listagem"/>                        
+                            <p:commandButton icon="ui-icon-seek-next"
+                                             actionListener="#{controleFilme.dao.proximo()}"
+                                             update="listagem"/>  
+                            <p:commandButton icon="ui-icon-seek-end"
+                                             actionListener="#{controleFilme.dao.ultimo()}"
+                                             update="listagem"/>  
+
+                        </f:facet>
+                        <p:column headerText="ID">
+                            <p:outputLabel value="#{obj.codigo}"/>
+                        </p:column>
+                        <p:column headerText="Nome">
+                            <p:outputLabel value="#{obj.nome}"/>
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <p:outputLabel value="#{obj.descricao}" style="overflow: hidden; max-height: 46px;"/>
+                        </p:column>
+                        <p:column headerText="Valor">
+                            <p:outputLabel value="#{obj.valor}"/>
+                        </p:column>
+                        <p:column headerText="Status">
+                            <p:outputLabel value="#{obj.locado}"/>
+                        </p:column>
+                        <p:column headerText="Ações">
+                            <div align="center">
+                                <p:commandButton actionListener="#{controleFilme.alterar(obj.codigo)}"
+                                                 process="@this" icon="ui-icon-pencil"
+                                                 update="formListagem :formEdicao"/>
+                                <p:commandButton actionListener="#{controleFilme.excluir(obj.codigo)}"
+                                                 process="@this" icon="ui-icon-trash"
+                                                 update="formListagem"/>
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+            </h:form>
+            <ui:include src="formulario.xhtml"/>
+        </ui:define>
+    </ui:composition>
+</html>
+
