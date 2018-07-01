@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="formEdicao">
+        <h:panelGroup rendered="#{controleLocacao.editando}">
+            <div class="ui-fluid">
+                <p:messages id="messages"/>
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-20"
+                             layout="grid" styleClass="ui-panelgrid-blank">
+                    <f:facet name="header">
+                        <p:outputLabel value="Edição de Locação"/>
+                    </f:facet>
+                    <p:outputLabel value="Código"/>
+                    <p:inputText value="#{controleLocacao.objeto.codigo}"
+                                 size="5" readonly="true"/>
+                    <p:outputLabel value="Data do emprestimo" for="txtEmprestimo"/>
+                    <p:calendar id="txtEmprestimo" value="#{controleLocacao.objeto.emprestimo}"
+                                mask="true" pattern="dd/MM/yyyy" navigator="true">
+                        <f:converter converterId="converterCalendar"/>
+                    </p:calendar>
+                    <p:outputLabel value="Data de devolução" for="txtDevolucao"/>
+                    <p:calendar id="txtDevolucao" value="#{controleLocacao.objeto.devolucao}"
+                                mask="true" pattern="dd/MM/yyyy" navigator="true">
+                        <f:converter converterId="converterCalendar"/>
+                    </p:calendar>
+
+                    <p:outputLabel value="Pessoa" for="selectPessoa"/>
+                    <p:selectOneMenu id="selectPessoa" value="#{controleLocacao.pessoa}"
+                                     filter="true">
+                        <f:converter converterId="converterPessoa"/>
+                        <f:selectItem noSelectionOption="true"
+                                      itemLabel="Selecione um registro"/>
+                        <f:selectItems value="#{controleLocacao.daoPessoa.listaTodos}"
+                                       var="a" itemLabel="#{a.nome}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value=""/>
+                    <p:commandButton value="Salvar"
+                                     icon="ui-icon-disk"
+                                     actionListener="#{controleLocacao.salvar()}"
+                                     update="formEdicao :formListagem"/>
+                </p:panelGrid>
+                <h:panelGroup id="painelItens">
+
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-2, ui-grid-col-20"
+                                 layout="grid" styleClass="ui-panelgrid-blank"
+                                 rendered="#{controleLocacao.editandoItens}">
+                        <f:facet name="header">
+                            <p:outputLabel value="Edição de itens"/>
+                        </f:facet>             
+
+                        <p:outputLabel for="cbxFilme" value="Filme"/>
+                        <p:selectOneMenu id="cbxFilme" value="#{controleLocacao.filme.locacao}">
+                            <f:selectItem itemLabel="Selecione um registro" noSelectionOption="true"/>
+                            <f:selectItems value="#{controleLocacao.daoFilme.listaTodos}"
+                                           var="u"
+                                           itemLabel="#{u.nome}"/>
+                            <f:converter converterId="converterFilme"/>
+                        </p:selectOneMenu> 
+                        <p:outputLabel value=""/>
+                        <p:commandButton value="Salvar Filme" icon="ui-icon-disk"
+                                         actionListener="#{controleLocacao.salvarFilme()}"
+                                         id="btnAdicionarAutorizacao"
+                                         process="btnAdicionarAutorizacao"
+                                         update=" messages painelFilme listagemAutorizacao"/>                                         
+                    </p:panelGrid>   
+
+                </h:panelGroup>    
+            </div>
+            <h:panelGroup id="listagemAutorizacao">
+                <h:panelGroup rendered="#{!controleLocacao.editandoFilme}">
+                    <p:commandButton value="Novo Filme"
+                                     actionListener="#{controleLocacao.novoFilme()}"
+                                     update="listagemAutorizacao painelFilme"
+                                     process="@this"/>
+                    <p:dataTable value="#{controleLocacao.objeto.filme}" var="fil"
+                                 reflow="true">
+                        <f:facet name="header">
+                            <p:outputLabel value="Filmes Locados"/>
+                        </f:facet>
+                        <p:column headerText="Apelido">
+                            <p:outputLabel value="#{fil.nome}"/>
+                        </p:column>
+                        <p:column headerText="Valor">
+                            <p:outputLabel value="#{fil.valor}"/>
+                        </p:column>  
+                        <p:column headerText="Ações">
+                            <div align="center">
+                                <p:commandButton icon="ui-icon-trash"
+                                                 actionListener="#{controleLocacao.excluirFilme(fil.codigo)}"
+                                                 process="@this" update="@form"/>                                                 
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+    </h:form>
+</html>
+
