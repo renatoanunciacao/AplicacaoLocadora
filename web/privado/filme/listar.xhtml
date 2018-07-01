@@ -67,13 +67,13 @@
                             <p:outputLabel value="#{obj.nome}"/>
                         </p:column>
                         <p:column headerText="Descrição">
-                            <p:outputLabel value="#{obj.descricao}" style="overflow: hidden; max-height: 46px;"/>
+                            <p:outputLabel value="#{obj.descricao}" style="overflow: hidden; max-height: 46px;" title="#{obj.descricao}"/>
                         </p:column>
                         <p:column headerText="Valor">
-                            <p:outputLabel value="#{obj.valor}"/>
+                            <p:outputLabel value="R$ #{obj.valor}"/>
                         </p:column>
                         <p:column headerText="Status">
-                            <p:outputLabel value="#{obj.locado}"/>
+                            <p:outputLabel value="#{obj.locado ? 'Locado' : 'Não Locado'}"/>
                         </p:column>
                         <p:column headerText="Ações">
                             <div align="center">

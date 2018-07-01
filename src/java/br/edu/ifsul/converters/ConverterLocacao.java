@@ -30,7 +30,7 @@ public class ConverterLocacao implements Serializable, Converter {
         if (string == null || string.equals("Selecione um registro")) {
             return null;
         }
-        return em.find(Locacao.class, string);
+        return em.find(Locacao.class, Integer.parseInt(string));
     }
 
     @Override

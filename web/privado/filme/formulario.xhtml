@@ -28,15 +28,15 @@
                     <p:outputLabel value="Status" for="txtLocado"/>
                     <p:selectBooleanCheckbox id="txtLocado" value="#{controleFilme.objeto.locado}" />       
                     
-                    <p:outputLabel value="Locação" for="selectLocacao"/>
+                   <p:outputLabel value="Locação" for="selectLocacao"/>
                     <p:selectOneMenu value="#{controleFilme.objeto.locacao}"
-                                     id="selectLocacao" filter="true">
+                                     id="selectLocacao" filter="true" filterMatchMode="starsWith">
                         <f:converter converterId="converterLocacao"/>
                         <f:selectItem itemLabel="Selecione um registro"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{controleFilme.daoLocacao.listaTodos}"
                                        var="s" itemLabel="#{s.codigo}"/>
-                    </p:selectOneMenu>
+                    </p:selectOneMenu>                
                     
                     <p:commandButton value="Salvar"
                                      icon="ui-icon-disk"

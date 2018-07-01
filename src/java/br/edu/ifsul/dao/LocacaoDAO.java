@@ -24,6 +24,4 @@ public class LocacaoDAO<TIPO> extends DAOGenerico<Locacao> implements Serializab
         maximoObjetos = 3;
     }
      
-    
-
 }
