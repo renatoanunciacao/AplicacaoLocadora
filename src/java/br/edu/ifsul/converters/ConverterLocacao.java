@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.edu.ifsul.converters;
 
+import br.edu.ifsul.modelo.Autorizacao;
 import br.edu.ifsul.modelo.Locacao;
 import java.io.Serializable;
 import javax.faces.component.UIComponent;
@@ -11,7 +17,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Renato
+ * @author alexv
  */
 @FacesConverter(value = "converterLocacao")
 public class ConverterLocacao implements Serializable, Converter {
@@ -24,7 +30,7 @@ public class ConverterLocacao implements Serializable, Converter {
         if (string == null || string.equals("Selecione um registro")) {
             return null;
         }
-        return em.find(Locacao.class, string);
+        return em.find(Locacao.class, Integer.parseInt(string));
     }
 
     @Override

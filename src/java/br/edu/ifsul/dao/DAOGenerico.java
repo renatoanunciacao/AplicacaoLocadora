@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Renato
  */
 public class DAOGenerico<TIPO> implements Serializable {
-    
+
     private List<TIPO> listaObjetos;
     private List<TIPO> listaTodos;
     @PersistenceContext(unitName = "APLICACAOLOCADORA-WEBPU")
@@ -44,7 +44,7 @@ public class DAOGenerico<TIPO> implements Serializable {
                     where += " where " + ordem + " = '" + filtro + "' ";
 
                 } catch (Exception e) {
-                       
+
                 }
             } else {
                 where += " where upper(" + ordem + ") like '%" + filtro.toUpperCase() + "%' ";
@@ -96,10 +96,12 @@ public class DAOGenerico<TIPO> implements Serializable {
         return em.createQuery(jpql).getResultList();
     }
 
+    //@RolesAllowed("BIGBOSS")
     public void persist(TIPO obj) throws Exception {
         em.persist(obj);
     }
 
+    //@RolesAllowed("BIGBOSS")
     public void merge(TIPO obj) throws Exception {
         em.merge(obj);
     }
@@ -108,13 +110,13 @@ public class DAOGenerico<TIPO> implements Serializable {
         return (TIPO) em.find(classePersistente, id);
     }
 
-   // @RolesAllowed("ADMINISTRADOR")
+    //@RolesAllowed("BIGBOSS")
     public void remover(TIPO obj) throws Exception {
         obj = em.merge(obj);
         em.remove(obj);
     }
 
-    public void setLisaObjetos(List<TIPO> listaObjetos) {
+    public void setListaObjetos(List<TIPO> listaObjetos) {
         this.listaObjetos = listaObjetos;
     }
 
